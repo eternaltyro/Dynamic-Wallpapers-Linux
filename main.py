@@ -32,15 +32,15 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 
-def setDEWallpaper(desktop_environment, style):
+def setDEWallpaper(desktop_environment: str, style: str):
     if style in [
         "bitday",
         "firewatch",
         "gradient",
     ]:  # only these 3 types have .png file extension.
-        type = ".png"
+        file_extension = ".png"
     else:
-        type = ".jpg"
+        file_extension = ".jpg"
 
     if desktop_environment.lower() in [
         "/usr/share/xsessions/plasma",
@@ -55,7 +55,7 @@ def setDEWallpaper(desktop_environment, style):
             + style
             + "/"
             + str(datetime.datetime.now().hour)
-            + type
+            + file_extension
             + "\")}'"
         )
 
@@ -63,7 +63,7 @@ def setDEWallpaper(desktop_environment, style):
         print("Inside", desktop_environment)
         os.system(
             f'gsettings set org.cinnamon.desktop.background picture-uri "file:///usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}'
-            + f'{type}"'
+            + f'{file_extension}"'
         )
 
     elif desktop_environment.lower() in [
@@ -80,21 +80,21 @@ def setDEWallpaper(desktop_environment, style):
         )
         os.system(
             f"xfconf-query --channel xfce4-desktop --property /backdrop/screen{SCREEN}/monitor{MONITOR}/workspace0/last-image --set usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-            + f"{type}"
+            + f"{file_extension}"
         )
 
     elif desktop_environment.lower() == "mate":  # Set Wallpaper for Mate DE
         print("Inside", desktop_environment)
         os.system(
             f"gsettings set org.mate.background picture-filename usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-            + f"{type}"
+            + f"{file_extension}"
         )
 
     elif desktop_environment.lower() == "lxde":  # Set Wallpaper for LXDE
         print("Inside", desktop_environment)
         os.system(
             f'pcmanfm --set-wallpaper="usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}'
-            + f'{type}"'
+            + f'{file_extension}"'
         )
 
     elif desktop_environment.lower() in [
@@ -107,7 +107,7 @@ def setDEWallpaper(desktop_environment, style):
         print("Inside", desktop_environment)
         os.system(
             f"gsettings set org.gnome.desktop.background picture-uri file:///usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-            + f"{type}"
+            + f"{file_extension}"
         )
 
     elif desktop_environment.lower() == "pop":
@@ -118,18 +118,18 @@ def setDEWallpaper(desktop_environment, style):
         ):
             os.system(
                 f"gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-                + f"{type}"
+                + f"{file_extension}"
             )
         else:
             os.system(
                 f"gsettings set org.gnome.desktop.background picture-uri file:///usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-                + f"{type}"
+                + f"{file_extension}"
             )
     else:
         print("Inside", desktop_environment)
         os.system(
             f"feh --bg-fill usr/share/linuxDynamicWallpapers/images/{style}/{datetime.datetime.now().hour}"
-            + f"{type}"
+            + f"{file_extension}"
         )
 
 
@@ -170,7 +170,7 @@ def onclose():
 
 
 if __name__ == "__main__":
-    if args.type == None:  # For setting the Wallpaper using GUI
+    if args.type is None:  # For setting the Wallpaper using GUI
         p1 = multiprocessing.Process(target=runServer)
         p1.start()
         window = webview.create_window(
